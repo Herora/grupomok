@@ -1,0 +1,11 @@
+tbody.cangeColortrue tr:nth-child(odd)>td,
+tbody.cangeColortrue tr:nth-child(odd)>th {
+    background-color: #112233;
+    color: white;
+}
+
+tbody.cangeColortrue tr:nth-child(even)>td,
+tbody.cangeColortrue tr:nth-child(even)>th {
+    background-color: #556677 ;
+    color: white;
+}
