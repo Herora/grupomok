@@ -4,11 +4,18 @@ import { TableData } from '../providers/tableData';
 
 function Table() {
     const [dataOrigin, setDataOrigin]: any = useState();
+    const [dataOriginTwo, setDataOriginTwo]: any = useState();
     const [changeColor, setChangeColor]: any = useState(false);
+    const [orderByCountry, setOrderByCountry]: any = useState(false);
     const data = async () => {
         let getData: any = await TableData();
         if (getData) {
-            setDataOrigin(getData.results);
+            const myObjStr = JSON.stringify(getData.results);
+            const datConvert = JSON.parse(myObjStr)
+            setDataOrigin(datConvert);
+            const myObjStrTwo = JSON.stringify(getData.results);
+            const datConvertTow = JSON.parse(myObjStrTwo)
+            setDataOriginTwo(datConvertTow);
         }
     }
     useEffect(() => {
@@ -17,12 +24,23 @@ function Table() {
     const chageColorTable = () => {
         setChangeColor(!changeColor)
     }
+    const orderCountry = (flag: boolean) => {
+        if (flag) {
+            const dataC = JSON.stringify(dataOrigin);
+            const datConvert = JSON.parse(dataC)
+            datConvert.sort((a: any, b: any) => a.location.country.localeCompare(b.location.country))
+            setDataOrigin(datConvert)
+        } else {
+            setDataOrigin(dataOriginTwo)
+        }
+        setOrderByCountry(flag)
+    }
     return (
         <div>
             <h1 className='text-center text-[50px] mb-[50px]'>Lista de usuarios</h1>
             <div className='flex justify-center mb-[30px] '>
                 <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full p" onClick={chageColorTable}>Colorear</button>
-                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full ">Orden por País</button>
+                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full " onClick={() => orderCountry(!orderByCountry)}>Orden por País</button>
                 <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full ">Restaurar</button>
                 <label className="relative block">
                     <span className="sr-only">Search</span>
@@ -46,7 +64,7 @@ function Table() {
                     </thead>
                     <tbody className={"cangeColor" + changeColor} >
                         {dataOrigin ? (
-                            dataOrigin.map((item: any, i: number) =>
+                            dataOrigin.map((item: any, i: number) => (
                                 <tr key={i} className='text-center background'>
                                     <td className='w-28 flex justify-center'><img src={item.picture.thumbnail} alt="" /></td>
                                     <td className='w-28'>{item.name.first}</td>
@@ -55,6 +73,7 @@ function Table() {
                                     <td className='w-28'>{item.location.country}</td>
                                     <td className='w-28'>button</td>
                                 </tr>
+                            )
                             )
                         ) : null}
                     </tbody>
