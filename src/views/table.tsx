@@ -35,13 +35,29 @@ function Table() {
         }
         setOrderByCountry(flag)
     }
+    const deleteItem = (item: any) => {
+        let dataFilter : any = []
+        let dataFilterDeletes : any = []
+        dataOrigin.forEach((e:any) => {
+            if(e === item){
+                dataFilterDeletes.push(e)
+            }else{
+                dataFilter.push(e)
+            }
+        });
+        setDataOrigin(dataFilter)
+    }
+    const restoreData = (item: any) => {
+        setDataOrigin(dataOriginTwo)
+    }
+
     return (
         <div>
             <h1 className='text-center text-[50px] mb-[50px]'>Lista de usuarios</h1>
             <div className='flex justify-center mb-[30px] '>
-                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full p" onClick={chageColorTable}>Colorear</button>
-                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full " onClick={() => orderCountry(!orderByCountry)}>Orden por País</button>
-                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full ">Restaurar</button>
+                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full" onClick={chageColorTable}>Colorear</button>
+                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full" onClick={() => orderCountry(!orderByCountry)}>Orden por País</button>
+                <button className="mr-[20px] py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full" onClick={restoreData}>Restaurar</button>
                 <label className="relative block">
                     <span className="sr-only">Search</span>
                     <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -71,7 +87,7 @@ function Table() {
                                     <td className='w-28'>{item.name.last}</td>
                                     <td className='w-28'>{item.gender}</td>
                                     <td className='w-28'>{item.location.country}</td>
-                                    <td className='w-28'>button</td>
+                                    <td className='w-28'><button className="py-[5px] px-[20px] bg-[#2d3585] text-white rounded-full" onClick={() => deleteItem(item)}>Eliminar</button></td>
                                 </tr>
                             )
                             )
