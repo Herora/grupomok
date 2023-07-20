@@ -55,7 +55,9 @@ function Table() {
         let dataFilter : any = []
         if(dataOriginTwo != undefined){
             dataOriginTwo.forEach((data : any) => {
-                if(data.location.country.includes(e)){
+                const country = data.location.country.toLowerCase()
+                const dataSearch = e.toLowerCase()
+                if(country.includes(dataSearch)){
                     dataFilter.push(data);
                 }
             });
